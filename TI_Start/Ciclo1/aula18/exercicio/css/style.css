@@ -1,0 +1,30 @@
+:root {
+    font-size: 50px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+article#o-pai {
+    width: 100vw;
+    height: 100vh;
+    padding: 5px;
+    background-color: rgb(7, 143, 25);
+}
+
+/* article#o-pai p#o-filho {
+    width: 100%;
+    height: auto;
+    background-color: coral;
+    font-size: 2em;
+} */
+
+article#o-pai p#o-filho {
+    width: 100%;
+    height: auto;
+    background-color: coral;
+    font-size: 0.5rem;
+}
