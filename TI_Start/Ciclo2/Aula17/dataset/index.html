@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <script src="script.js"></script>
+        <title>Aula 17 - Data Attributes</title>
+    </head>
+    <script>
+        window.onload = function () {
+            // alert('Olá povo')
+            const btnBuscar = document.querySelector('#btnBuscar')
+            const txtNomeCli = document.querySelector('#nomeCliente')
+            btnBuscar.addEventListener('click', function () {
+                let dataSetCliente = txtNomeCli.dataset.codigocli
+                let dataSetStatus = txtNomeCli.dataset.statuscli
+                console.log(dataSetCliente)
+                console.log(dataSetStatus)
+            })
+        }
+    </script>
+    <body>
+        <input
+            type="text"
+            data-codigocli="38"
+            data-statuscli="ativo"
+            name="nomeCliente"
+            value="Leone RS"
+            id="nomeCliente"
+        />
+        <input type="button" value="BUSCAR" name="buscar" id="btnBuscar" />
+    </body>
+</html>

@@ -1,0 +1,188 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+:root {
+    --default-font: verdana;
+    --cor-I: #2196f3;
+    --cor-II: #3d5afe;
+    --cor-III: #0d47a1;
+}
+
+body {
+    font-family: var(--default-font);
+    justify-content: center;
+    overflow: auto;
+}
+
+.flex {
+    display: flex;
+}
+
+.alignflex {
+    align-items: center;
+    justify-content: top;
+}
+
+.collum {
+    flex-direction: column;
+}
+
+header {
+    width: 100vw;
+    height: 200px;
+    background-image: linear-gradient(
+        var(--cor-I),
+        var(--cor-II),
+        var(--cor-III)
+    );
+    position: fixed;
+    color: white;
+    font-family: var(--default-font);
+}
+
+main {
+    width: 100%;
+    height: auto;
+    display: flex;
+}
+
+h1 {
+    position: relative;
+    display: flex;
+    margin-top: 50px;
+    margin-bottom: 10px;
+}
+
+h2 {
+    position: relative;
+    display: flex;
+    font-size: 0.75em;
+}
+
+div.icone.flex {
+    width: 64px;
+    height: 64px;
+    margin-top: 200px;
+    background-color: white;
+    flex-direction: collumn;
+    position: relative;
+    margin: 168px auto;
+    border-radius: 100%;
+    padding: 5px;
+    position: block;
+}
+
+.material-icons {
+    position: relative;
+    color: var(--cor-I);
+    display: block;
+    font-size: 64px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+section#containerFormulario {
+    width: 100vw;
+    height: auto;
+    margin: 250px auto;
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    align-items: center;
+}
+
+fieldset {
+    width: 300px;
+    padding: auto;
+    border: none;
+    border-radius: 10px;
+    flex-direction: collumn;
+    display: block;
+    position: block;
+    align-items: center;
+    justify-content: center;
+}
+
+label {
+    display: block;
+    width: 100%;
+    height: auto;
+    margin: 0;
+    font-size: 12px;
+}
+
+#cep {
+    width: 100%;
+    height: 20px;
+    border: 1px solid var(--cor-I);
+    border-radius: 3px;
+    margin-bottom: 10px;
+    font-size: 12px;
+    display: block;
+    padding: 5px;
+    caret-color: gray;
+}
+
+fieldset > input {
+    width: 100%;
+    height: 20px;
+    border: 1px solid var(--cor-I);
+    border-radius: 3px;
+    margin-bottom: 10px;
+    font-size: 12px;
+    display: block;
+    padding: 5px;
+    caret-color: transparent;
+    box-sizing: content-box;
+    align-items: center;
+}
+
+fieldset #buscarCep {
+    width: 100.5%;
+    height: 30px;
+    cursor: pointer;
+    display: block;
+    padding: 5px;
+    outline: none;
+    color: #fff;
+    background-color: var(--cor-I);
+    border: none;
+    box-shadow: 0 7px var(--cor-II);
+    border-radius: 10px;
+    box-sizing: content-box;
+    font-size: 16px;
+}
+
+fieldset #buscarCep:hover {
+    width: 100%;
+    height: 30px;
+    cursor: pointer;
+    display: block;
+    padding: 5px;
+    outline: none;
+    color: #fff;
+    background-color: var(--cor-II);
+    border: none;
+    box-shadow: 0 7px var(--cor-III);
+    border-radius: 10px;
+    box-sizing: content-box;
+}
+
+fieldset #buscarCep:active {
+    width: 100%;
+    height: 30px;
+    cursor: pointer;
+    display: block;
+    padding: 5px;
+    outline: none;
+    color: #fff;
+    background-color: var(--cor-III);
+    border: none;
+    background-color: var(--cor-II);
+    box-shadow: 0 3px var(--cor-III);
+    transform: translateY(4px);
+    border-radius: 10px;
+    box-sizing: content-box;
+}

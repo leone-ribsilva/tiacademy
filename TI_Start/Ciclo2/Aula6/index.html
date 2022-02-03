@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Aula 6 - Tipos de funções</title>
+    </head>
+    <script>
+        // var qualquer //variável global
+        // let qq = 'variável let' //variável global
+        // const valorConstante = 100 //variável global
+        // if (true) {
+        //     console.log(valorConstante)
+        //     var varDentroDoIf = 'Estou dentro do if, sou uma var'
+        //     let letDentroDoIF = 'Sou uma let e estou dentro do if'
+        //     //console.log(letDentroDoIF) //dentro do escopo
+        // }
+        // console.log(valorConstante) //fora do escopo
+
+        function soma() {
+            console.log(1 + 3)
+        }
+        //soma()
+
+        function concatenarNome() {
+            var nome = 'Leone'
+            var sobrenome = ' Ribeiro Silva'
+            alert(nome + sobrenome)
+        }
+        //concatenarNome()
+
+        function novaConcatenarNomes(nome, sobrenome) {
+            document.write(nome + ' ' + sobrenome)
+        }
+        novaConcatenarNomes('Leone', 'Ribeiro Silva')
+
+        let semNome = function () {
+            alert('Estou em um funcção anônima')
+        }
+        //semNome()
+
+        let funcComPars = function (idade, idadePar) {
+            if (idade > idadePar) {
+                alert('Idade maior que ' + idadePar)
+            } else {
+                alert('Idade menor que ' + idadePar)
+            }
+        }
+        funcComPars(13, 18)
+        funcComPars(23, 18)
+    </script>
+    <body></body>
+</html>

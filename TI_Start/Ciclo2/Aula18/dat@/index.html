@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Aula 18 - Data</title>
+    </head>
+    <script>
+        let meses = [
+            'Janeiro',
+            'Fevereiro',
+            'Março',
+            'Abril',
+            'Maio',
+            'Junho',
+            'Julho',
+            'Agosto',
+            'Setembro',
+            'Outubro',
+            'Novembro',
+            'Dezembro'
+        ]
+
+        let diaSemana = [
+            'Domingo',
+            'Segunda-feira',
+            'Terça-feira',
+            'Quarta-feira',
+            'Quinta-feira',
+            'Sexta-feira',
+            'Sábado'
+        ]
+
+        let data = new Date()
+        console.log(data)
+        console.log(data.getDate())
+        console.log(meses[data.getMonth()])
+        console.log(
+            `Hoje é ${diaSemana[data.getDay()]}, ${data.getDay()} de ${
+                meses[data.getMonth()]
+            } de ${data.getFullYear()}.`
+        )
+
+        let dataFormatada = data.toLocaleString('pt-BR', {
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit'
+        })
+        console.log(dataFormatada)
+    </script>
+    <body></body>
+</html>
