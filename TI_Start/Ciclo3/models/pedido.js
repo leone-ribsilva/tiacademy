@@ -11,7 +11,7 @@ module.exports = (sequelize, DataTypes) => {
             // define association here
             Pedido.belongsTo(models.Cliente, {
                 foreignKey: 'ClienteId',
-                as: 'cliente'
+                as: 'clientes'
             })
             Pedido.belongsToMany(models.Servico, {
                 foreignKey: 'ServicoId',

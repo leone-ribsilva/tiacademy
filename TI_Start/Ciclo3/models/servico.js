@@ -1,5 +1,6 @@
 'use strict'
 const { Model } = require('sequelize')
+//const { FOREIGNKEYS } = require('sequelize/dist/lib/query-types')
 module.exports = (sequelize, DataTypes) => {
     class Servico extends Model {
         /**
@@ -9,7 +10,14 @@ module.exports = (sequelize, DataTypes) => {
          */
         static associate(models) {
             // define association here
-            Servico.belongsToMany(models.Pedido, { through: 'ItemPedido' })
+            Servico.belongsToMany(models.Pedido, {
+                through: 'ItemPedido',
+                as: 'serv'
+            })
+            Servico.hasMany(models.ItemPedido, {
+                foreignKey: 'ServicoId',
+                as: 'item_servicos'
+            })
         }
     }
     Servico.init(

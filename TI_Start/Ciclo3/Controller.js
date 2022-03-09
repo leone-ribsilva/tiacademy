@@ -1,10 +1,6 @@
-// const express = require('express')
 const cors = require('cors')
-
-// const { sequelize } = require('./models')
-// const models = require('./models')
-
 const express = require('express')
+const { json } = require('express/lib/response')
 const res = require('express/lib/response')
 const { Sequelize } = require('./models')
 const models = require('./models')
@@ -115,33 +111,293 @@ app.post('/pedido/:id/itempedido', async (req, res) => {
         })
 })
 
-// app.post('/servico/:id/itempedido', async (req, res) => {
-//     const ItemPed = {
-//         quantidade: req.body.quantidade,
-//         valor: req.body.valor
-//     }
-//     if (!(await servico.findByPk(req.params.id))) {
-//         return res.status(400).json({
-//             error: true,
-//             message: 'Servico não existe'
-//         })
-//     }
-//     await itempedido
-//         .create(ItemPed)
-//         .then(item => {
-//             return res.json({
-//                 error: false,
-//                 message: 'Item inserido com sucesso!',
-//                 item
-//             })
-//         })
-//         .catch(erro => {
-//             return res.json({
-//                 error: true,
-//                 message: 'Não foi possível inserir o pedido'
-//             })
-//         })
-// })
+app.get('/listaservicos', async (req, res) => {
+    await servico
+        .findAll({
+            //raw: true
+            order: [['id', 'ASC']]
+        })
+        .then(function (servicos) {
+            res.json({ servicos })
+        })
+})
+
+app.get('/ofertaservicos', async (req, res) => {
+    await servico.count('id').then(function (servicos) {
+        res.json({ servicos })
+    })
+})
+
+app.get('/servico/:id', async (req, res) => {
+    await servico
+        .findByPk(req.params.id)
+        .then(serv => {
+            if (serv == null) {
+                return res.json({
+                    error: true,
+                    message: 'Serviço não encontrado!'
+                })
+            } else {
+                return res.json({ error: false, serv })
+            }
+        })
+        .catch(function (erro) {
+            return res.status(400).json({
+                error: true,
+                message: 'Erro: não foi possível conectar'
+            })
+        })
+})
+
+app.get('/listaclientes', async (req, res) => {
+    await cliente
+        .findAll({
+            order: [['id', 'ASC']]
+        })
+        .then(function (clientes) {
+            res.json({ clientes })
+        })
+})
+
+app.get('/listaclientesantiguidade', async (req, res) => {
+    await cliente
+        .findAll({
+            order: [['clienteDesde', 'ASC']]
+        })
+        .then(function (clientes) {
+            res.json({ clientes })
+        })
+})
+
+app.get('/listapedidos', async (req, res) => {
+    await pedido
+        .findAll({
+            order: [['id', 'ASC']]
+        })
+        .then(function (pedidos) {
+            res.json({ pedidos })
+        })
+})
+
+app.get('/listaitempedidosdesc', async (req, res) => {
+    await itempedido
+        .findAll({
+            order: [['valor', 'DESC']]
+        })
+        .then(function (itempedidos) {
+            res.json({ itempedidos })
+        })
+})
+
+app.get('/countclientes', async (req, res) => {
+    await cliente.count('id').then(function (clientes) {
+        res.json({ clientes })
+    })
+})
+
+app.get('/countitempedidos', async (req, res) => {
+    await itempedido.count('id').then(function (itempedidos) {
+        res.json({ itempedidos })
+    })
+})
+
+app.put('/atualizaservico', async (req, res) => {
+    await servico
+        .update(req.body, {
+            where: { id: req.body.id }
+        })
+        .then(function () {
+            return res.json({
+                error: false,
+                message: 'O serviço foi alterado com sucesso!'
+            })
+        })
+        .catch(function (erro) {
+            return res.status(400).json({
+                error: true,
+                message: 'Erro na alteração do serviço!'
+            })
+        })
+})
+
+app.get('/pedidos/:id', async (req, res) => {
+    await pedido
+        .findByPk(req.params.id, { include: [{ all: true }] })
+        .then(ped => {
+            return res.json({ ped })
+        })
+})
+
+app.put('/pedidos/:id/editaritem', async (req, res) => {
+    const item = {
+        quantidade: req.body.quantidade,
+        valor: req.body.valor
+    }
+    if (!(await pedido.findByPk(req.params.id))) {
+        return res.status(400).json({
+            error: true,
+            message: 'O pedido não foi encontrado!'
+        })
+    }
+    if (!(await servico.findByPk(req.body.ServicoId))) {
+        return res.status(400).json({
+            error: true,
+            message: 'O serviço não foi encontrado'
+        })
+    }
+    await itempedido
+        .update(item, {
+            where: Sequelize.and(
+                { ServicoId: req.body.ServicoId },
+                { PedidoId: req.params.id }
+            )
+        })
+        .then(function (itens) {
+            return res.json({
+                error: false,
+                message: 'O pedido foi alterado com sucesso!',
+                itens
+            })
+        })
+        .catch(function (erro) {
+            return res.status(400).json({
+                error: true,
+                message: 'Erro: não foi possível alterar!'
+            })
+        })
+})
+
+app.get('/clientes/:id', async (req, res) => {
+    await cliente
+        .findByPk(req.params.id, { include: [{ all: true }] })
+        .then(cli => {
+            return res.json({ cli })
+        })
+})
+
+app.put('/clientes/:id/editarcliente', async (req, res) => {
+    const cli = {
+        nome: req.body.nome,
+        endereco: req.body.endereco
+    }
+    if (!(await cliente.findByPk(req.params.id))) {
+        return res.status(400).json({
+            error: true,
+            message: 'O cliente não foi encontrado!'
+        })
+    }
+
+    await cliente
+        .update(cli, {
+            where: { id: req.params.id }
+        })
+        .then(function (cli) {
+            return res.json({
+                error: false,
+                message: 'O cliente foi alterado com sucesso!',
+                cli
+            })
+        })
+        .catch(function (erro) {
+            return res.status(400).json({
+                error: true,
+                message: 'Erro: não foi possível alterar!'
+            })
+        })
+})
+
+app.put('/pedidos/:id/editarpedido', async (req, res) => {
+    const ped = {
+        ClienteId: req.body.ClienteId
+    }
+    if (!(await pedido.findByPk(req.params.id))) {
+        return res.status(400).json({
+            error: true,
+            message: 'O pedido não foi encontrado!'
+        })
+    }
+
+    await pedido
+        .update(ped, {
+            where: { id: req.params.id }
+        })
+        .then(function (cli) {
+            return res.json({
+                error: false,
+                message: 'O pedido foi alterado com sucesso!',
+                ped
+            })
+        })
+        .catch(function (erro) {
+            return res.status(400).json({
+                error: true,
+                message: 'Erro: não foi possível alterar!'
+            })
+        })
+})
+
+app.get('/cliente/:id/pedidos', async (req, res) => {
+    if (req.params.id != 0 && req.params.id <= (await cliente.count('id'))) {
+        await pedido
+            .findAll({
+                where: { ClienteId: req.params.id }
+            })
+            .then(ped => {
+                if (ped == null) {
+                    return res.json({
+                        error: true,
+                        message: 'O cliente não possui pedido!'
+                    })
+                } else {
+                    return res.json({ error: false, ped })
+                }
+            })
+            .catch(function (erro) {
+                return res.status(400).json({
+                    error: true,
+                    message: 'Erro: não foi possível conectar'
+                })
+            })
+    } else {
+        return res.json({ error: true, message: 'Cliente não existe!' })
+    }
+})
+
+app.put('/cliente/:id/editarpedido', async (req, res) => {
+    if (req.params.id != 0 && req.params.id <= cliente.count('id')) {
+        const ped = {
+            ClienteId: req.body.ClienteId
+        }
+        if (ped == null) {
+            return res.json({
+                error: true,
+                message: 'O cliente não possui pedido!'
+            })
+        } else {
+            await pedido
+                .update(ped, {
+                    where: Sequelize.and(
+                        { id: req.body.PedidoId },
+                        { ClienteId: req.params.id }
+                    )
+                })
+                .then(function (ped) {
+                    return res.json({
+                        error: false,
+                        message: 'O pedido foi alterado com sucesso!'
+                    })
+                })
+                .catch(function (erro) {
+                    return res.status(400).json({
+                        error: true,
+                        message: 'Erro: não foi possível conectar'
+                    })
+                })
+        }
+    } else {
+        return res.json({ error: true, message: 'Cliente não existe!' })
+    }
+})
 
 let port = process.env.PORT || 3001
 
