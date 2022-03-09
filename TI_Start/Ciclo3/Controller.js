@@ -122,6 +122,16 @@ app.get('/listaservicos', async (req, res) => {
         })
 })
 
+app.get('/listaclientes', async (req, res) => {
+    await cliente
+        .findAll({
+            raw: true
+        })
+        .then(function (clientes) {
+            res.json({ clientes })
+        })
+})
+
 app.get('/ofertaservicos', async (req, res) => {
     await servico.count('id').then(function (servicos) {
         res.json({ servicos })
@@ -397,6 +407,25 @@ app.put('/cliente/:id/editarpedido', async (req, res) => {
     } else {
         return res.json({ error: true, message: 'Cliente não existe!' })
     }
+})
+
+app.get('/excluircliente/:id', async (req, res) => {
+    await cliente
+        .destroy({
+            where: { id: req.params.id }
+        })
+        .then(function () {
+            return res.json({
+                error: false,
+                message: 'O cliente foi excluído com sucesso'
+            })
+        })
+        .catch(function (erro) {
+            return res.status(400).json({
+                error: true,
+                message: 'Erro de conexão'
+            })
+        })
 })
 
 let port = process.env.PORT || 3001
